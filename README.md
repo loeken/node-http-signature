@@ -1,3 +1,11 @@
+This is a fork of the _node-http-signature_ module, which uses the forked
+version of _node-sshpk_ as dependency.
+
+This fork of _node-http-signature_ allows signing of HTTP headers
+with secp256k1 private keys, the mostly used EC curve 
+in Bitcoin and Ethereum, enabling on-chain verification of HTTP response
+for the latter.
+
 # node-http-signature
 
 node-http-signature is a node.js library that has client and server components

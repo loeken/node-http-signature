@@ -30,7 +30,7 @@
   "dependencies": {
     "assert-plus": "^0.2.0",
     "jsprim": "^1.2.2",
-    "sshpk": "^1.7.0"
+    "sshpk": "oraclize/node-sshpk"
   },
   "devDependencies": {
     "tap": "0.4.2",
