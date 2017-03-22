@@ -51,28 +51,53 @@ req.end();
 ```
 
 ### Server
-
 ```js
 var fs = require('fs');
-var https = require('https');
 var httpSignature = require('http-signature');
+var key = fs.readFileSync('./key.pem', 'ascii');
+var http = require('http')
+var sshpk = require('sshpk')
+const crypto = require('crypto')
 
-var options = {
-  key: fs.readFileSync('./key.pem'),
-  cert: fs.readFileSync('./cert.pem')
+const requestHandler = (req, res) => {
+ var body = "Hello!";
+ const hash = crypto.createHash('sha256')
+ hash.update(body)
+ res.setHeader('Digest', 'SHA-256=' + hash.digest('base64'))
+	
+ httpSignature.sign(res, {
+ 	key: key,
+	keyId: '047b0e85dd1c08ee6722cbe132be9e73bf531c7882965cb08eec2be17e6408514a323a27d0ab38bdcc35ca1d63c1beeb1f3236e24a50538634f166bfc4e3c1258d',
+	headers: ['Digest']	
+ })
+ res.writeHead(200);
+ res.end('Hello!')
 };
+const server = http.createServer(requestHandler)
 
-https.createServer(options, function (req, res) {
-  var rc = 200;
-  var parsed = httpSignature.parseRequest(req);
-  var pub = fs.readFileSync(parsed.keyId, 'ascii');
-  if (!httpSignature.verifySignature(parsed, pub))
-    rc = 401;
+server.listen(3000, (err) => {
+	
+	httpOptions = {
+		headers: {
+			'x-foo': 'false'
+		}
+	}
+	
+	signOptions = {
+		key: key,
+		keyId: 'oracize1'
+	}
 
-  res.writeHead(rc);
-  res.end();
-}).listen(8443);
+	if (err) {
+		return console.log('Server Error: ', err)
+	}
+
+	console.log('server listening')
+})
+
+
 ```
+
 
 ## Installation
 
