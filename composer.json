@@ -1,0 +1,7 @@
+{
+    "name": "loeken/node-http-signature",
+    "description": "oraclize version of node-http-signature",
+    "type": "library",
+    "minimum-stability": "dev",
+    "require": {}
+}
